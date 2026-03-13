@@ -13,7 +13,7 @@ export const AREAS: string[] = [
 ];
 
 export const CATEGORIES: { id: TradeCategory; label: string }[] = [
-  { id: "plumbing-heating", label: "Plumbing/Heating" },
+  { id: "plumbing", label: "Plumbing" },
   { id: "electrical", label: "Electrical" },
   { id: "building", label: "Building" },
   { id: "landscaping", label: "Landscaping" },

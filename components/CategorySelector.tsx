@@ -5,21 +5,21 @@ import { CATEGORIES } from "@/lib/data";
 
 interface CategorySelectorProps {
   onChange?: (value: string) => void;
+  defaultValue?: string;
 }
 
-export function CategorySelector({ onChange }: CategorySelectorProps) {
+export function CategorySelector({ onChange, defaultValue }: CategorySelectorProps) {
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selected, setSelected] = useState<string | null>(defaultValue ?? null);
 
-  const handleSelect = (categoryId: string) => {
-    setSelected(categoryId);
-    onChange?.(categoryId);
+  const handleSelect = (categoryLabel: string) => {
+    setSelected(categoryLabel);
+    onChange?.(categoryLabel);
     setOpen(false);
   };
 
   const selectedLabel =
-    CATEGORIES.find((category) => category.id === selected)?.label ??
-    "Select trade category";
+    CATEGORIES.find((c) => c.label === selected)?.label ?? "Select trade category";
 
   return (
     <div className="relative flex items-center gap-2">
@@ -39,10 +39,10 @@ export function CategorySelector({ onChange }: CategorySelectorProps) {
               key={category.id}
               type="button"
               className="flex w-full items-center justify-between px-4 py-2 text-sm text-slate-800 hover:bg-slate-50"
-              onClick={() => handleSelect(category.id)}
+              onClick={() => handleSelect(category.label)}
             >
               <span>{category.label}</span>
-              {selected === category.id && (
+              {selected === category.label && (
                 <span className="text-xs text-primary">Selected</span>
               )}
             </button>
@@ -52,4 +52,3 @@ export function CategorySelector({ onChange }: CategorySelectorProps) {
     </div>
   );
 }
-

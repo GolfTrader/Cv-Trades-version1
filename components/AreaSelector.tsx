@@ -5,11 +5,12 @@ import { AREAS } from "@/lib/data";
 
 interface AreaSelectorProps {
   onChange?: (value: string) => void;
+  defaultValue?: string;
 }
 
-export function AreaSelector({ onChange }: AreaSelectorProps) {
+export function AreaSelector({ onChange, defaultValue }: AreaSelectorProps) {
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selected, setSelected] = useState<string | null>(defaultValue ?? null);
 
   const handleSelect = (area: string) => {
     setSelected(area);
@@ -48,4 +49,3 @@ export function AreaSelector({ onChange }: AreaSelectorProps) {
     </div>
   );
 }
-

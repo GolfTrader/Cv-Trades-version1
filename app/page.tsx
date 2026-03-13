@@ -1,9 +1,10 @@
 import { SearchBar } from "@/components/SearchBar";
 import { FeaturedListingCard } from "@/components/FeaturedListingCard";
-import { CATEGORIES, FEATURED_LISTINGS, AREAS } from "@/lib/data";
-import { supabase } from "@/lib/supabase";
+import { getFeaturedTradespeople } from "@/lib/tradespeople";
+import { AREAS } from "@/lib/data";
 
 export default async function HomePage() {
+  const featuredTradespeople = await getFeaturedTradespeople();
   
   return (
     <div>
@@ -43,7 +44,7 @@ export default async function HomePage() {
           </button>
         </div>
         <div className="grid gap-5 md:grid-cols-3">
-          {FEATURED_LISTINGS.map((listing) => (
+          {featuredTradespeople.map((listing) => (
             <FeaturedListingCard key={listing.id} listing={listing} />
           ))}
         </div>
