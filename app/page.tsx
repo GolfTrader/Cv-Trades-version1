@@ -1,8 +1,10 @@
 import { SearchBar } from "@/components/SearchBar";
 import { FeaturedListingCard } from "@/components/FeaturedListingCard";
 import { CATEGORIES, FEATURED_LISTINGS, AREAS } from "@/lib/data";
+import { supabase } from "@/lib/supabase";
 
-export default function HomePage() {
+export default async function HomePage() {
+  
   return (
     <div>
       <section className="relative bg-gradient-to-b from-slate-50 via-sky-50/60 to-slate-50">
