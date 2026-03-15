@@ -27,24 +27,29 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function TradeProfilePage({ params }: PageProps) {
+  // Fetch core tradesperson data - no gallery join in case table doesn't exist
   const { data: tp, error } = await supabase
     .from("tradespeople")
     .select(`
       *,
       tradesperson_areas(areas(name)),
       tradesperson_categories(categories(name)),
-      reviews(id, rating, reviewer_name, comment, created_at),
-      tradesperson_gallery(id, image_url, sort_order)
+      reviews(id, rating, reviewer_name, comment, created_at)
     `)
     .eq("slug", params.slug)
     .single();
 
-  if (error || !tp) notFound();
+  // Log error for debugging but don't 404 on db errors
+  if (error) {
+    console.error("Profile page error:", error.message, "slug:", params.slug);
+    notFound();
+  }
+
+  if (!tp) notFound();
 
   const categories = tp.tradesperson_categories?.map((tc: any) => tc.categories?.name).filter(Boolean) ?? [];
   const areas = tp.tradesperson_areas?.map((ta: any) => ta.areas?.name).filter(Boolean) ?? [];
   const reviews = tp.reviews ?? [];
-  const gallery = tp.tradesperson_gallery?.sort((a: any, b: any) => a.sort_order - b.sort_order) ?? [];
 
   const avgRating = reviews.length > 0
     ? reviews.reduce((sum: number, r: any) => sum + r.rating, 0) / reviews.length
@@ -106,11 +111,8 @@ export default async function TradeProfilePage({ params }: PageProps) {
                     </div>
                   )}
                   {areas.length > 0 && (
-                    <p className="mt-1.5 text-sm text-slate-500">
-                      📍 {areas.join(", ")}
-                    </p>
+                    <p className="mt-1.5 text-sm text-slate-500">📍 {areas.join(", ")}</p>
                   )}
-                  {/* Rating */}
                   {avgRating !== null && (
                     <div className="mt-2 flex items-center gap-1.5">
                       <div className="flex items-center gap-0.5">
@@ -135,27 +137,12 @@ export default async function TradeProfilePage({ params }: PageProps) {
             </div>
           </div>
 
-          {/* Gallery */}
-          {gallery.length > 0 && (
-            <div className="card p-6">
-              <h2 className="text-sm font-semibold text-slate-900 mb-4">Gallery</h2>
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                {gallery.map((img: any) => (
-                  <div key={img.id} className="aspect-square overflow-hidden rounded-lg bg-slate-100">
-                    <img src={img.image_url} alt="" className="h-full w-full object-cover" />
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
           {/* Reviews */}
           <div className="card p-6">
             <h2 className="text-sm font-semibold text-slate-900 mb-4">
               Customer Reviews
               {reviews.length > 0 && <span className="ml-2 font-normal text-slate-400">({reviews.length})</span>}
             </h2>
-
             {reviews.length === 0 ? (
               <p className="text-sm text-slate-400">No reviews yet — be the first!</p>
             ) : (
@@ -163,18 +150,14 @@ export default async function TradeProfilePage({ params }: PageProps) {
                 {reviews.map((r: any) => (
                   <div key={r.id} className="border-b border-slate-100 pb-4 last:border-0 last:pb-0">
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-sm font-medium text-slate-800">
-                        {r.reviewer_name || "Anonymous"}
-                      </span>
+                      <span className="text-sm font-medium text-slate-800">{r.reviewer_name || "Anonymous"}</span>
                       <div className="flex items-center gap-0.5">
                         {[1,2,3,4,5].map(s => (
                           <span key={s} className={`text-xs ${s <= r.rating ? "text-amber-400" : "text-slate-200"}`}>★</span>
                         ))}
                       </div>
                     </div>
-                    {r.comment && (
-                      <p className="text-sm text-slate-600 leading-relaxed">{r.comment}</p>
-                    )}
+                    {r.comment && <p className="text-sm text-slate-600 leading-relaxed">{r.comment}</p>}
                     <p className="mt-1 text-xs text-slate-400">
                       {new Date(r.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}
                     </p>
@@ -186,11 +169,10 @@ export default async function TradeProfilePage({ params }: PageProps) {
 
         </div>
 
-        {/* RIGHT COLUMN — sticky contact sidebar */}
+        {/* RIGHT COLUMN */}
         <aside className="space-y-5">
           <div className="card p-6 md:sticky md:top-24">
             <h2 className="text-sm font-semibold text-slate-900 mb-4">Contact</h2>
-
             <div className="space-y-3">
               {tp.main_phone && (
                 <a href={`tel:${tp.main_phone}`} className="flex items-center gap-3 rounded-xl bg-slate-50 px-4 py-3 text-sm text-slate-700 hover:bg-primary/5 hover:text-primary transition-colors">
@@ -221,28 +203,20 @@ export default async function TradeProfilePage({ params }: PageProps) {
               )}
             </div>
 
-            {/* Social / web links */}
             {socialLinks.length > 0 && (
               <div className="mt-5 border-t border-slate-100 pt-5">
                 <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-slate-400">Online</p>
                 <div className="flex flex-wrap gap-2">
                   {socialLinks.map((link) => (
-                    <a
-                      key={link.label}
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 hover:border-primary/30 hover:text-primary transition-colors"
-                    >
-                      <span>{link.icon}</span>
-                      {link.label}
+                    <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 hover:border-primary/30 hover:text-primary transition-colors">
+                      <span>{link.icon}</span>{link.label}
                     </a>
                   ))}
                 </div>
               </div>
             )}
 
-            {/* Areas served */}
             {areas.length > 0 && (
               <div className="mt-5 border-t border-slate-100 pt-5">
                 <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">Areas Covered</p>
@@ -250,7 +224,6 @@ export default async function TradeProfilePage({ params }: PageProps) {
               </div>
             )}
 
-            {/* Back to results */}
             <div className="mt-5 border-t border-slate-100 pt-5">
               <Link href="/find-a-trade" className="block text-center text-xs font-medium text-primary hover:underline">
                 ← Back to search
