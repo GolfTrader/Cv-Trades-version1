@@ -11,22 +11,23 @@ interface SearchBarProps {
   defaultCategory?: string;
 }
 
+// Convert display name to URL slug e.g. "Leamington Spa" -> "leamington-spa"
+function nameToSlug(name: string): string {
+  return name.trim().toLowerCase().replace(/\s+/g, "-");
+}
+
 export function SearchBar({ showLabels = false, defaultArea, defaultCategory }: SearchBarProps) {
   const router = useRouter();
   const [area, setArea] = useState<string>(defaultArea ?? "");
   const [category, setCategory] = useState<string>(defaultCategory ?? "");
 
-  const navigate = () => {
-    const params = new URLSearchParams();
-    if (area) params.set("area", area);
-    if (category) params.set("category", category);
-    const url = `/find-a-trade${params.toString() ? `?${params.toString()}` : ""}`;
-    router.push(url);
-  };
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    navigate();
+    const areaSlug = area ? nameToSlug(area) : "all";
+    const categorySlug = category ? nameToSlug(category) : "all";
+
+    router.push(`/find-a-trade/${areaSlug}/${categorySlug}`);
   };
 
   return (
