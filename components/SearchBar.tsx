@@ -51,11 +51,7 @@ export function SearchBar({ showLabels = false, defaultArea, defaultCategory }: 
         <CategorySelector onChange={setCategory} defaultValue={defaultCategory} />
       </div>
       <div className="flex w-full justify-end rounded-full px-2 py-1 md:w-auto md:px-1">
-        <button
-          type="button"
-          className="btn-primary w-full md:w-auto"
-          onClick={navigate}
-        >
+        <button type="submit" className="btn-primary w-full md:w-auto">
           Search
         </button>
       </div>
