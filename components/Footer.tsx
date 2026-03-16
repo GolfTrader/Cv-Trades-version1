@@ -20,26 +20,20 @@ export function Footer() {
             </p>
           </div>
 
-          <div className="flex flex-1 flex-wrap gap-10 text-sm">
+          <div className="flex flex-wrap gap-16 text-sm md:justify-end">
             <div>
               <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-slate-400">
                 Quick Links
               </h3>
               <ul className="space-y-2">
                 <li>
-                  <Link href="/" className="hover:text-white">
-                    Home
-                  </Link>
+                  <Link href="/" className="hover:text-white transition-colors">Home</Link>
                 </li>
                 <li>
-                  <Link href="/find-a-trade" className="hover:text-white">
-                    Find a Trade
-                  </Link>
+                  <Link href="/" className="hover:text-white transition-colors">Find a Trade</Link>
                 </li>
                 <li>
-                  <Link href="/advertise" className="hover:text-white">
-                    Join as a Professional
-                  </Link>
+                  <Link href="/advertise" className="hover:text-white transition-colors">Join as a Professional</Link>
                 </li>
               </ul>
             </div>
@@ -50,19 +44,13 @@ export function Footer() {
               </h3>
               <ul className="space-y-2">
                 <li>
-                  <Link href="/terms" className="hover:text-white">
-                    Terms of Service
-                  </Link>
+                  <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
                 </li>
                 <li>
-                  <Link href="/privacy" className="hover:text-white">
-                    Privacy Policy
-                  </Link>
+                  <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
                 </li>
                 <li>
-                  <Link href="/cookies" className="hover:text-white">
-                    Cookie Policy
-                  </Link>
+                  <Link href="/cookies" className="hover:text-white transition-colors">Cookie Policy</Link>
                 </li>
               </ul>
             </div>
@@ -77,4 +65,3 @@ export function Footer() {
     </footer>
   );
 }
-

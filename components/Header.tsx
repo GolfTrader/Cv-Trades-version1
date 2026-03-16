@@ -15,28 +15,13 @@ export function Header() {
         </Link>
 
         <nav className="hidden items-center gap-8 text-sm text-slate-600 md:flex">
-          <Link
-            href="/"
-            className="transition hover:text-slate-900 hover:underline hover:underline-offset-4"
-          >
+          <Link href="/" className="transition hover:text-slate-900 hover:underline hover:underline-offset-4">
             Home
           </Link>
-          <Link
-            href="/find-a-trade"
-            className="transition hover:text-slate-900 hover:underline hover:underline-offset-4"
-          >
-            Find a Trade
-          </Link>
-          <Link
-            href="/about"
-            className="transition hover:text-slate-900 hover:underline hover:underline-offset-4"
-          >
+          <Link href="/about" className="transition hover:text-slate-900 hover:underline hover:underline-offset-4">
             About
           </Link>
-          <Link
-            href="/faq"
-            className="transition hover:text-slate-900 hover:underline hover:underline-offset-4"
-          >
+          <Link href="/faq" className="transition hover:text-slate-900 hover:underline hover:underline-offset-4">
             FAQ
           </Link>
         </nav>
@@ -50,4 +35,3 @@ export function Header() {
     </header>
   );
 }
-

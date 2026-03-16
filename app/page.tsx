@@ -22,7 +22,8 @@ export default async function HomePage() {
             with top-rated local professionals for your next project.
           </p>
 
-          <div className="mt-12 w-full max-w-5xl md:mt-20">
+          {/* Search box — 15% bigger, max-w-6xl instead of max-w-5xl, more padding around it */}
+          <div id="search" className="mt-12 w-full max-w-6xl px-2 md:mt-20">
             <SearchBar />
           </div>
         </div>
@@ -57,9 +58,8 @@ export default async function HomePage() {
               Covering the entire CV Postcode
             </h2>
             <p className="max-w-2xl text-sm text-slate-300 md:text-base">
-              We&apos;re building the most comprehensive network of trades
-              professionals across Warwickshire and Coventry. Search by town or
-              village to find trusted local experts.
+              We're building the most comprehensive network of trades professionals across Coventry and 
+		Warwickshire. We've devided the CV postcode into areas to help you find trusted local experts.
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -77,4 +77,3 @@ export default async function HomePage() {
     </div>
   );
 }
-
