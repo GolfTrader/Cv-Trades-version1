@@ -9,7 +9,7 @@ export default async function HomePage() {
   return (
     <div>
       <section className="relative bg-gradient-to-b from-slate-50 via-sky-50/60 to-slate-50">
-        <div className="container-page flex flex-col items-center pt-28 pb-24 text-center md:pt-22 md:pb-30 min-h-[60vh]">
+        <div className="container-page flex flex-col items-center pt-28 pb-10 text-center md:pt-22 md:pb-12 min-h-[60vh]">
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary sm:text-sm md:text-lg">
             Find a trusted local professional
           </p>
@@ -58,8 +58,9 @@ export default async function HomePage() {
               Covering the entire CV Postcode
             </h2>
             <p className="max-w-2xl text-sm text-slate-300 md:text-base">
-              We're building the most comprehensive network of trades professionals across Coventry and 
-		Warwickshire. We've devided the CV postcode into areas to help you find trusted local experts.
+              We&apos;re building the most comprehensive network of trades
+              professionals across Warwickshire and Coventry. Search by town or
+              village to find trusted local experts.
             </p>
           </div>
           <div className="flex flex-wrap gap-2">

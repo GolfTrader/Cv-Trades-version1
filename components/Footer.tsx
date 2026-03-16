@@ -6,12 +6,12 @@ export function Footer() {
       <div className="container-page py-10">
         <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
           <div className="space-y-3 max-w-sm">
-            <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-2xl bg-primary text-xs font-semibold text-white">
+            <div className="flex items-center gap-2.5">
+              <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-primary text-sm font-bold text-white" style={{background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)"}}>
                 CV
               </div>
-              <span className="text-base font-semibold tracking-tight text-white">
-                CV Trades<span className="text-primary">.</span>
+              <span className="text-base font-bold tracking-tight text-white">
+                Trades<span className="text-primary">.</span>
               </span>
             </div>
             <p className="text-sm text-slate-400">
@@ -22,36 +22,28 @@ export function Footer() {
 
           <div className="flex flex-wrap gap-16 text-sm md:justify-end">
             <div>
-              <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-slate-400">
-                Quick Links
-              </h3>
+              <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-slate-400">Quick Links</h3>
               <ul className="space-y-2">
-                <li>
-                  <Link href="/" className="hover:text-white transition-colors">Home</Link>
-                </li>
-                <li>
-                  <Link href="/" className="hover:text-white transition-colors">Find a Trade</Link>
-                </li>
-                <li>
-                  <Link href="/advertise" className="hover:text-white transition-colors">Join as a Professional</Link>
-                </li>
+                <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
+                <li><Link href="/" className="hover:text-white transition-colors">Find a Trade</Link></li>
+                <li><Link href="/about" className="hover:text-white transition-colors">About</Link></li>
+                <li><Link href="/advertise" className="hover:text-white transition-colors">Tradesperson Signup</Link></li>
               </ul>
             </div>
-
             <div>
-              <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-slate-400">
-                Legal
-              </h3>
+              <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-slate-400">Help</h3>
               <ul className="space-y-2">
-                <li>
-                  <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
-                </li>
-                <li>
-                  <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
-                </li>
-                <li>
-                  <Link href="/cookies" className="hover:text-white transition-colors">Cookie Policy</Link>
-                </li>
+                <li><Link href="/faq" className="hover:text-white transition-colors">FAQ</Link></li>
+                <li><Link href="/building-control" className="hover:text-white transition-colors">Building Control</Link></li>
+                <li><Link href="/planning-application" className="hover:text-white transition-colors">Planning Application</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-slate-400">Legal</h3>
+              <ul className="space-y-2">
+                <li><Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link></li>
+                <li><Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
+                <li><Link href="/cookies" className="hover:text-white transition-colors">Cookie Policy</Link></li>
               </ul>
             </div>
           </div>
