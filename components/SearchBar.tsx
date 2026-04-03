@@ -20,11 +20,12 @@ export function SearchBar({ showLabels = false, defaultArea, defaultCategory }: 
   const [area, setArea] = useState<string>(defaultArea ?? "");
   const [category, setCategory] = useState<string>(defaultCategory ?? "");
 
+  const canSearch = !!area && !!category;
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const areaSlug = area ? nameToSlug(area) : "all";
-    const categorySlug = category ? nameToSlug(category) : "all";
-    router.push(`/find-a-trade/${areaSlug}/${categorySlug}`);
+    if (!canSearch) return;
+    router.push(`/find-a-trade/${nameToSlug(area)}/${nameToSlug(category)}`);
   };
 
   return (
@@ -54,7 +55,11 @@ export function SearchBar({ showLabels = false, defaultArea, defaultCategory }: 
 
       {/* Search button */}
       <div className="flex w-full justify-end px-3 py-1 md:w-auto">
-        <button type="submit" className="btn-primary w-full px-10 py-3.5 text-base md:w-auto">
+        <button
+          type="submit"
+          disabled={!canSearch}
+          className="btn-primary w-full px-10 py-3.5 text-base md:w-auto disabled:opacity-40 disabled:cursor-not-allowed"
+        >
           Search
         </button>
       </div>

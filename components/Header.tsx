@@ -23,8 +23,8 @@ export function Header() {
 
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5">
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl text-sm font-bold text-white shadow-md" style={{background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)"}}>
-            <span className="text-base font-black tracking-tight">CV</span>
+          <div className="flex h-11 w-11 items-center justify-center rounded-md text-sm font-bold text-white shadow-md" style={{background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)"}}>
+            <span className="text-lg font-black tracking-tight">CV</span>
           </div>
           <span className="text-xl font-bold tracking-tight text-slate-900">
             Trades<span className="text-primary">.</span>

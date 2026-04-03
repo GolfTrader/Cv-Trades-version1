@@ -10,15 +10,25 @@ export async function getFeaturedTradespeople(): Promise<Tradesperson[]> {
       tradesperson_categories(categories(name)),
       reviews(rating)
     `)
-    .eq("is_featured", true)
-    .limit(3);
+    .eq("approved", true)
+    .eq("membership_tier", "featured")
+    .order("created_at", { ascending: false })
+    .limit(6);
 
   if (error) {
     console.error("Error fetching featured tradespeople:", error);
     return [];
   }
 
-  return data ?? [];
+  // Deduplicate by id in case joins cause duplicate rows
+  const seen = new Set<number>();
+  const unique = (data ?? []).filter((item) => {
+    if (seen.has(item.id)) return false;
+    seen.add(item.id);
+    return true;
+  });
+
+  return unique;
 }
 
 export async function getAllTradespeople(): Promise<Tradesperson[]> {
@@ -37,7 +47,12 @@ export async function getAllTradespeople(): Promise<Tradesperson[]> {
     return [];
   }
 
-  return data ?? [];
+  const seen = new Set<number>();
+  return (data ?? []).filter((item) => {
+    if (seen.has(item.id)) return false;
+    seen.add(item.id);
+    return true;
+  });
 }
 
 export async function getTradespersonBySlug(slug: string): Promise<Tradesperson | null> {
@@ -60,7 +75,6 @@ export async function getTradespersonBySlug(slug: string): Promise<Tradesperson 
   return data;
 }
 
-// Helper to calculate average rating from reviews array
 export function getAverageRating(reviews: { rating: number }[]): number {
   if (!reviews || reviews.length === 0) return 0;
   const sum = reviews.reduce((acc, r) => acc + r.rating, 0);

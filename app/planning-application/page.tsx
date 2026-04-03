@@ -1,126 +1,106 @@
-import type { Metadata } from "next";
 import Link from "next/link";
-
-export const metadata: Metadata = {
-  title: "Planning Application | CV Trades Directory",
-  description: "A guide to planning applications in the CV postcode area. When you need planning permission, how to apply, and what to expect.",
-};
 
 export default function PlanningApplicationPage() {
   return (
-    <div className="min-h-screen bg-slate-50">
-
-      {/* Hero */}
-      <section className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-16 text-white">
-        <div className="container-page">
-          <nav className="mb-6 flex items-center gap-2 text-xs text-slate-400">
-            <Link href="/" className="hover:text-white transition-colors">Home</Link>
-            <span>›</span>
-            <span className="text-slate-300">Planning Application</span>
-          </nav>
-          <div className="max-w-2xl">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-primary">Help with your project</p>
-            <h1 className="text-3xl font-bold sm:text-4xl">📋 Planning Applications</h1>
-            <p className="mt-4 text-slate-300 text-sm leading-relaxed">
-              Not sure if your project needs planning permission? This guide covers everything you need to know for projects in the CV postcode area.
-            </p>
+    <div className="min-h-screen bg-gray-50">
+      <div className="bg-white border-b border-gray-100">
+        <div className="max-w-4xl mx-auto px-4 py-16 text-center">
+          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-blue-600 mb-4">Help with your project</span>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4 tracking-tight">Planning Permission Explained</h1>
+          <p className="text-gray-500 text-base max-w-2xl mx-auto">Thinking about an extension, conversion, or new build? Here is everything you need to know about planning permission in the Coventry and Warwickshire area.</p>
+        </div>
+      </div>
+      <div className="max-w-4xl mx-auto px-4 py-12 space-y-8">
+        <section className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
+          <h2 className="text-xl font-bold text-gray-900 mb-4">What is planning permission?</h2>
+          <p className="text-gray-600 leading-relaxed mb-4">Planning permission is formal approval from your local council to carry out certain types of building work or change the use of a building or land. It ensures development is appropriate for the local area and complies with national and local planning policy.</p>
+          <p className="text-gray-600 leading-relaxed">Planning permission is separate from building regulations. You may need one, both, or neither. Always check before starting work as carrying out work without required permission can cause serious problems when selling your home.</p>
+        </section>
+        <section className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
+          <h2 className="text-xl font-bold text-gray-900 mb-6">Do you need planning permission?</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="rounded-xl bg-green-50 border border-green-100 p-5">
+              <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2"><span className="text-green-600">✓</span> Usually permitted development</h3>
+              <ul className="space-y-2">
+                {["Small single-storey rear extensions","Internal alterations","Like-for-like roof repairs","Most garden sheds and outbuildings","Driveways with permeable surfacing","Solar panels (in most cases)"].map((item) => (
+                  <li key={item} className="text-sm text-gray-600 flex items-start gap-2"><span className="text-green-500 shrink-0">✓</span>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="rounded-xl bg-amber-50 border border-amber-100 p-5">
+              <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2"><span className="text-amber-600">!</span> Usually needs permission</h3>
+              <ul className="space-y-2">
+                {["Large or multi-storey extensions","Loft conversions with roof alterations","New dwellings or subdivisions","Change of use of a building","Work on a listed building","Work in a conservation area"].map((item) => (
+                  <li key={item} className="text-sm text-gray-600 flex items-start gap-2"><span className="text-amber-500 shrink-0">!</span>{item}</li>
+                ))}
+              </ul>
+            </div>
           </div>
-        </div>
-      </section>
-
-      <div className="container-page py-12 max-w-3xl space-y-8">
-
-        {/* What is planning permission */}
-        <div className="rounded-2xl bg-white border border-slate-100 shadow-sm p-6">
-          <h2 className="text-lg font-bold text-slate-900 mb-3">What is Planning Permission?</h2>
-          <p className="text-sm text-slate-600 leading-relaxed">
-            Planning permission is formal approval from your local council to carry out certain types of building work or change the use of a building. It ensures development is appropriate for the local area in terms of design, impact on neighbours and the environment.
-          </p>
-          <p className="mt-3 text-sm text-slate-600 leading-relaxed">
-            Many smaller home improvements are covered by <strong>Permitted Development Rights</strong> — meaning you don't need to apply for planning permission. However, if you live in a conservation area, listed building or have had your permitted development rights removed, you will need to apply.
-          </p>
-        </div>
-
-        {/* Do you need it */}
-        <div className="rounded-2xl bg-white border border-slate-100 shadow-sm p-6">
-          <h2 className="text-lg font-bold text-slate-900 mb-4">Do You Need Planning Permission?</h2>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {[
-              { icon: "✅", title: "Usually NOT needed", items: ["Small rear extensions (within limits)", "Loft conversions (no hip-to-gable)", "Internal alterations", "Replacing windows like-for-like", "Garden sheds & outbuildings (under 2.5m)"] },
-              { icon: "⚠️", title: "Usually NEEDED", items: ["Large extensions beyond PD limits", "New dwellings or subdivisions", "Change of use (e.g. office to residential)", "Work on listed buildings", "Projects in conservation areas"] },
-            ].map((col) => (
-              <div key={col.title} className="rounded-xl bg-slate-50 p-4">
-                <p className="text-sm font-semibold text-slate-800 mb-3">{col.icon} {col.title}</p>
-                <ul className="space-y-1.5">
-                  {col.items.map((item) => (
-                    <li key={item} className="flex items-start gap-2 text-xs text-slate-600">
-                      <span className="mt-0.5 text-slate-400">•</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* How to apply */}
-        <div className="rounded-2xl bg-white border border-slate-100 shadow-sm p-6">
-          <h2 className="text-lg font-bold text-slate-900 mb-4">How to Apply</h2>
+          <p className="text-sm text-gray-500 mt-4">Not sure? Always check with your local planning authority before starting work.</p>
+        </section>
+        <section className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
+          <h2 className="text-xl font-bold text-gray-900 mb-6">How to apply</h2>
           <div className="space-y-4">
             {[
-              { step: "1", title: "Check if you need permission", desc: "Use the Planning Portal's interactive house tool or contact your local council to check if your project requires permission." },
-              { step: "2", title: "Prepare your application", desc: "You'll typically need site plans, floor plans, elevations and a design and access statement for larger projects." },
-              { step: "3", title: "Submit online", desc: "Submit your application via the Planning Portal (planningportal.co.uk) or directly to your local council." },
-              { step: "4", title: "Wait for a decision", desc: "Most householder applications are decided within 8 weeks. You'll be notified in writing of the decision." },
-              { step: "5", title: "Start work", desc: "Once approved, you typically have 3 years to start work. Keep your approval notice safe — you'll need it when selling." },
-            ].map((item) => (
-              <div key={item.step} className="flex items-start gap-4">
-                <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-white">
-                  {item.step}
-                </div>
+              {n:"01",title:"Check if you need it",body:"Use the Planning Portal guides or contact your local planning authority for pre-application advice. Many smaller projects fall under permitted development."},
+              {n:"02",title:"Prepare your application",body:"You will need a completed application form, site location plan, block plan, existing and proposed floor plans and elevations, and the application fee."},
+              {n:"03",title:"Submit via the Planning Portal",body:"Most applications are submitted online via planningportal.co.uk which connects directly to your local council's planning department."},
+              {n:"04",title:"Consultation period",body:"Once validated, your application is publicised for public comment for 21 days. Neighbours and statutory consultees may submit responses."},
+              {n:"05",title:"Decision",body:"Most householder applications are decided within 8 weeks. You will receive a decision notice — approval with conditions or refusal with reasons."},
+              {n:"06",title:"Build within the permission",body:"Planning permission is usually valid for 3 years. Build in accordance with the approved plans and keep your decision notice safe."},
+            ].map((step) => (
+              <div key={step.n} className="flex gap-5 p-5 rounded-xl border border-gray-100 hover:border-blue-100 hover:bg-blue-50/30 transition">
+                <div className="text-2xl font-black text-blue-100 shrink-0 w-8">{step.n}</div>
                 <div>
-                  <p className="text-sm font-semibold text-slate-800">{item.title}</p>
-                  <p className="text-sm text-slate-600 mt-1">{item.desc}</p>
+                  <h3 className="font-semibold text-gray-900 mb-1">{step.title}</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">{step.body}</p>
                 </div>
               </div>
             ))}
           </div>
-        </div>
-
-        {/* Useful links */}
-        <div className="rounded-2xl bg-primary/5 border border-primary/20 p-6">
-          <h2 className="text-base font-bold text-slate-900 mb-4">Useful Links</h2>
-          <div className="space-y-2 text-sm">
+        </section>
+        <section className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
+          <h2 className="text-xl font-bold text-gray-900 mb-2">Local planning authorities</h2>
+          <p className="text-sm text-gray-500 mb-6">Submit your application through the relevant council for your area.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
-              { label: "Planning Portal", href: "https://www.planningportal.co.uk", desc: "Submit applications & check permitted development" },
-              { label: "Coventry City Council Planning", href: "https://www.coventry.gov.uk/planning", desc: "Local planning applications for Coventry" },
-              { label: "Warwick District Council Planning", href: "https://www.warwickdc.gov.uk/planning", desc: "Local planning for Warwick & Leamington Spa" },
-              { label: "Historic England", href: "https://historicengland.org.uk", desc: "Guidance for listed buildings & conservation areas" },
-            ].map((link) => (
-              <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer"
-                className="flex items-center justify-between rounded-xl bg-white px-4 py-3 border border-slate-100 hover:border-primary/30 hover:bg-primary/5 transition-all group">
+              {name:"Coventry City Council",area:"Coventry",url:"https://www.coventry.gov.uk/planning"},
+              {name:"Warwick District Council",area:"Warwick, Leamington, Kenilworth",url:"https://www.warwickdc.gov.uk/planning"},
+              {name:"Rugby Borough Council",area:"Rugby and surrounding",url:"https://www.rugby.gov.uk/planning"},
+              {name:"Stratford District Council",area:"Stratford-upon-Avon area",url:"https://www.stratford.gov.uk/planning"},
+              {name:"Nuneaton & Bedworth Borough",area:"Nuneaton, Bedworth",url:"https://www.nuneatonandbedworth.gov.uk"},
+              {name:"Planning Portal",area:"National online submission",url:"https://www.planningportal.co.uk"},
+            ].map((c) => (
+              <a key={c.name} href={c.url} target="_blank" rel="noopener noreferrer" className="flex items-start justify-between p-4 rounded-xl border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition group">
                 <div>
-                  <p className="font-medium text-slate-800 group-hover:text-primary transition-colors">{link.label}</p>
-                  <p className="text-xs text-slate-400 mt-0.5">{link.desc}</p>
+                  <p className="text-sm font-semibold text-gray-800 group-hover:text-blue-700">{c.name}</p>
+                  <p className="text-xs text-gray-400 mt-0.5">{c.area}</p>
                 </div>
-                <span className="text-slate-400 group-hover:text-primary transition-colors">→</span>
+                <span className="text-blue-500 text-sm">↗</span>
               </a>
             ))}
           </div>
-        </div>
-
-        {/* CTA */}
-        <div className="rounded-2xl bg-slate-900 p-8 text-center text-white">
-          <h3 className="text-base font-bold mb-2">Ready to find a tradesperson?</h3>
-          <p className="text-sm text-slate-300 mb-5">Search for trusted local professionals across the CV postcode area.</p>
-          <Link href="/" className="btn-primary text-sm">
-            Search Tradespeople
-          </Link>
-        </div>
-
-        <div className="text-center">
-          <Link href="/" className="text-sm text-primary hover:underline">← Back to home</Link>
+        </section>
+        <section className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
+          <h2 className="text-xl font-bold text-gray-900 mb-6">Tips for a successful application</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[
+              {title:"Talk to your neighbours",body:"Letting neighbours know about your plans before submitting can prevent objections that delay or derail your application."},
+              {title:"Use pre-application advice",body:"Most councils offer paid pre-application advice. Getting early feedback from a planning officer dramatically improves approval chances."},
+              {title:"Hire an architect",body:"Good drawings make a huge difference. An architect experienced in local planning can design a scheme more likely to be approved."},
+              {title:"Check local planning policy",body:"Each council has a Local Plan that guides decisions. Understanding local design policies helps frame your application appropriately."},
+            ].map((tip) => (
+              <div key={tip.title} className="p-5 rounded-xl bg-gray-50 border border-gray-100">
+                <h3 className="font-semibold text-gray-900 text-sm mb-1">{tip.title}</h3>
+                <p className="text-sm text-gray-600 leading-relaxed">{tip.body}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+        <div className="bg-blue-600 rounded-2xl p-8 text-white text-center">
+          <h2 className="text-xl font-bold mb-2">Need an architect or planning consultant?</h2>
+          <p className="text-blue-100 text-sm mb-5">Find trusted local professionals across the CV postcode area.</p>
+          <Link href="/" className="inline-block px-6 py-2.5 bg-white text-blue-600 font-semibold text-sm rounded-xl hover:bg-blue-50 transition">Find a Tradesperson</Link>
         </div>
       </div>
     </div>

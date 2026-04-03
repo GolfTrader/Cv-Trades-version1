@@ -1,126 +1,94 @@
-import type { Metadata } from "next";
 import Link from "next/link";
-
-export const metadata: Metadata = {
-  title: "Building Control | CV Trades Directory",
-  description: "Everything you need to know about building control in the CV postcode area. When you need it, how to apply, and finding approved tradespeople.",
-};
 
 export default function BuildingControlPage() {
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="max-w-4xl mx-auto px-4 py-16">
 
-      {/* Hero */}
-      <section className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-16 text-white">
-        <div className="container-page">
-          <nav className="mb-6 flex items-center gap-2 text-xs text-slate-400">
-            <Link href="/" className="hover:text-white transition-colors">Home</Link>
-            <span>›</span>
-            <span className="text-slate-300">Building Control</span>
-          </nav>
-          <div className="max-w-2xl">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-primary">Help with your project</p>
-            <h1 className="text-3xl font-bold sm:text-4xl">🏗️ Building Control</h1>
-            <p className="mt-4 text-slate-300 text-sm leading-relaxed">
-              Understanding building control is essential for any structural home improvement. 
-              Here's what you need to know before starting your project in the CV area.
-            </p>
-          </div>
+      <div className="text-center mb-12">
+        <span className="inline-block text-xs font-semibold uppercase tracking-widest text-blue-600 mb-3">
+          Help with your project
+        </span>
+        <h1 className="text-3xl font-bold text-gray-900 mb-3">Building Control Explained</h1>
+        <p className="text-gray-500 text-base max-w-2xl mx-auto">
+          Building regulations ensure construction work is safe, accessible, and energy efficient.
+          Here's what you need to know before starting your project.
+        </p>
+      </div>
+
+      <section className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8 mb-8">
+        <h2 className="text-xl font-bold text-gray-900 mb-3">What is building control?</h2>
+        <p className="text-gray-600 text-sm leading-relaxed mb-4">
+          Building control ensures building work meets the standards set out in the Building Regulations,
+          covering structural integrity, fire safety, energy efficiency, and accessibility.
+        </p>
+        <p className="text-gray-600 text-sm leading-relaxed">
+          Building control is separate from planning permission. You may need one, both, or neither
+          depending on your project. Always check before work begins — carrying out work without
+          required approvals can cause serious problems when you sell your home.
+        </p>
+      </section>
+
+      <section className="mb-8">
+        <h2 className="text-xl font-bold text-gray-900 mb-6">How the process works</h2>
+        <div className="space-y-4">
+          {[
+            { n: "01", title: "Check if you need approval", body: "Not all building work requires approval. Minor repairs and like-for-like replacements often don't, but extensions, conversions, and structural work usually do." },
+            { n: "02", title: "Choose your route", body: "Apply through your local authority building control (LABC) or use an approved inspector. Both routes result in the same approval." },
+            { n: "03", title: "Submit your application", body: "Submit a Full Plans application (recommended for larger projects) or a Building Notice (suitable for smaller works)." },
+            { n: "04", title: "Inspections take place", body: "Your builder must notify building control at key stages. An inspector will visit to check foundations, damp proof course, drains, and completion." },
+            { n: "05", title: "Receive your completion certificate", body: "When all work is signed off you'll receive a completion certificate. Keep this safe — you'll need it when you sell your property." },
+          ].map((step) => (
+            <div key={step.n} className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 flex gap-5">
+              <div className="text-2xl font-black text-blue-100 shrink-0 w-8">{step.n}</div>
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-1">{step.title}</h3>
+                <p className="text-sm text-gray-600 leading-relaxed">{step.body}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
-      <div className="container-page py-12 max-w-3xl space-y-8">
-
-        {/* What is it */}
-        <div className="rounded-2xl bg-white border border-slate-100 shadow-sm p-6">
-          <h2 className="text-lg font-bold text-slate-900 mb-3">What is Building Control?</h2>
-          <p className="text-sm text-slate-600 leading-relaxed">
-            Building control is the process by which your local authority checks that building work meets the minimum standards set out in the Building Regulations. These regulations cover structural integrity, fire safety, energy efficiency, accessibility and more.
-          </p>
-          <p className="mt-3 text-sm text-slate-600 leading-relaxed">
-            Building control approval is separate from planning permission — you may need one, the other, or both depending on your project.
-          </p>
-        </div>
-
-        {/* When do you need it */}
-        <div className="rounded-2xl bg-white border border-slate-100 shadow-sm p-6">
-          <h2 className="text-lg font-bold text-slate-900 mb-4">When Do You Need Building Control?</h2>
-          <div className="space-y-3">
-            {[
-              { icon: "🏠", title: "Extensions", desc: "Any extension to your home, including single or double storey." },
-              { icon: "🔧", title: "Structural alterations", desc: "Removing or altering load-bearing walls, beams or chimney stacks." },
-              { icon: "🚿", title: "New bathrooms or kitchens", desc: "Installing new drainage or moving existing plumbing." },
-              { icon: "⚡", title: "Electrical work", desc: "Major electrical installations or consumer unit replacements." },
-              { icon: "🔥", title: "Boilers & heating", desc: "Installing a new boiler, heating system or gas appliances." },
-              { icon: "🏗️", title: "Loft conversions", desc: "Converting your loft into a habitable room." },
-              { icon: "🪟", title: "New windows & doors", desc: "Replacement windows and doors must meet energy efficiency standards." },
-            ].map((item) => (
-              <div key={item.title} className="flex items-start gap-3 rounded-xl bg-slate-50 p-4">
-                <span className="text-xl">{item.icon}</span>
-                <div>
-                  <p className="text-sm font-semibold text-slate-800">{item.title}</p>
-                  <p className="text-xs text-slate-500 mt-0.5">{item.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* How to apply */}
-        <div className="rounded-2xl bg-white border border-slate-100 shadow-sm p-6">
-          <h2 className="text-lg font-bold text-slate-900 mb-4">How to Apply</h2>
-          <div className="space-y-4">
-            {[
-              { step: "1", title: "Full Plans Application", desc: "Submit detailed plans before work starts. An inspector approves the plans, then inspects the work at key stages. Best for larger projects." },
-              { step: "2", title: "Building Notice", desc: "Notify your local authority before work begins without submitting full plans. Suitable for smaller, straightforward projects." },
-              { step: "3", title: "Regularisation", desc: "If work has already been done without approval, you can apply retrospectively to regularise it." },
-            ].map((item) => (
-              <div key={item.step} className="flex items-start gap-4">
-                <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-white">
-                  {item.step}
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-slate-800">{item.title}</p>
-                  <p className="text-sm text-slate-600 mt-1">{item.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Local authority */}
-        <div className="rounded-2xl bg-primary/5 border border-primary/20 p-6">
-          <h2 className="text-base font-bold text-slate-900 mb-2">Local Authority Contacts</h2>
-          <p className="text-sm text-slate-600 mb-4">For projects in the CV postcode area, contact your relevant local authority:</p>
-          <div className="space-y-2 text-sm">
-            <div className="flex items-center justify-between rounded-xl bg-white px-4 py-3 border border-slate-100">
-              <span className="font-medium text-slate-800">Coventry City Council</span>
-              <a href="https://www.coventry.gov.uk" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline text-xs">coventry.gov.uk</a>
+      <section className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8 mb-8">
+        <h2 className="text-xl font-bold text-gray-900 mb-4">Projects that commonly need approval</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          {["House extensions","Loft conversions","Garage conversions","Structural alterations","New heating system","Electrical work","Underpinning","Cavity wall insulation","New windows and doors","New bathrooms (in some cases)"].map((p) => (
+            <div key={p} className="flex items-center gap-2 text-sm text-gray-600">
+              <span className="text-blue-600 font-bold">✓</span>{p}
             </div>
-            <div className="flex items-center justify-between rounded-xl bg-white px-4 py-3 border border-slate-100">
-              <span className="font-medium text-slate-800">Warwick District Council</span>
-              <a href="https://www.warwickdc.gov.uk" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline text-xs">warwickdc.gov.uk</a>
-            </div>
-            <div className="flex items-center justify-between rounded-xl bg-white px-4 py-3 border border-slate-100">
-              <span className="font-medium text-slate-800">Nuneaton & Bedworth Borough Council</span>
-              <a href="https://www.nuneatonandbedworth.gov.uk" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline text-xs">nuneatonandbedworth.gov.uk</a>
-            </div>
-          </div>
+          ))}
         </div>
+      </section>
 
-        {/* CTA */}
-        <div className="rounded-2xl bg-slate-900 p-8 text-center text-white">
-          <h3 className="text-base font-bold mb-2">Need a tradesperson for your project?</h3>
-          <p className="text-sm text-slate-300 mb-5">Find trusted local professionals across the CV postcode area.</p>
-          <Link href="/" className="btn-primary text-sm">
-            Search Tradespeople
-          </Link>
+      <section className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8 mb-8">
+        <h2 className="text-xl font-bold text-gray-900 mb-3">Local authority contacts</h2>
+        <p className="text-sm text-gray-600 leading-relaxed mb-4">
+          For projects in the Coventry and Warwickshire area, contact your local council or use a government-approved private building inspector.
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {[
+            { name: "Coventry City Council", url: "https://www.coventry.gov.uk" },
+            { name: "Warwick District Council", url: "https://www.warwickdc.gov.uk" },
+            { name: "Rugby Borough Council", url: "https://www.rugby.gov.uk" },
+            { name: "Stratford District Council", url: "https://www.stratford.gov.uk" },
+          ].map((c) => (
+            <a key={c.name} href={c.url} target="_blank" rel="noopener noreferrer"
+              className="flex items-center justify-between p-4 rounded-xl border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition group">
+              <span className="text-sm font-medium text-gray-700 group-hover:text-blue-700">{c.name}</span>
+              <span className="text-blue-600 text-xs">↗</span>
+            </a>
+          ))}
         </div>
+      </section>
 
-        <div className="text-center">
-          <Link href="/" className="text-sm text-primary hover:underline">← Back to home</Link>
-        </div>
+      <div className="text-center bg-blue-600 rounded-2xl p-8 text-white">
+        <h2 className="text-xl font-bold mb-2">Need a tradesperson for your project?</h2>
+        <p className="text-blue-100 text-sm mb-5">Find trusted, local tradespeople across the CV postcode area.</p>
+        <Link href="/" className="inline-block px-6 py-2.5 bg-white text-blue-600 font-semibold text-sm rounded-xl hover:bg-blue-50 transition">
+          Find a Tradesperson
+        </Link>
       </div>
+
     </div>
   );
 }

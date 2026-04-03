@@ -34,7 +34,10 @@ export function CategorySelector({ onChange, defaultValue }: CategorySelectorPro
 
   return (
     <div ref={ref} className="relative flex items-center gap-3">
-      <span className="hidden text-xl text-slate-400 sm:inline">🛠️</span>
+      {/* Wrench icon */}
+      <svg className="hidden sm:block flex-shrink-0 text-slate-400" width="18" height="18" viewBox="0 0 16 16" fill="none">
+        <path d="M10.5 2a3.5 3.5 0 00-3.3 4.6L2.4 11.4a1.4 1.4 0 002 2L9.4 8.6A3.5 3.5 0 1010.5 2zm0 5a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" fill="currentColor"/>
+      </svg>
       <button
         type="button"
         className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-left text-base text-slate-800 shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
@@ -44,7 +47,7 @@ export function CategorySelector({ onChange, defaultValue }: CategorySelectorPro
         <span className="ml-2 text-sm text-slate-400">▾</span>
       </button>
       {open && (
-        <div className="absolute left-0 right-0 top-full z-30 mt-2 max-h-72 overflow-y-auto rounded-2xl border border-slate-200 bg-white shadow-lg">
+        <div className="absolute left-0 right-0 top-full z-[200] mt-2 max-h-72 overflow-y-auto rounded-2xl border border-slate-200 bg-white shadow-xl">
           <button
             type="button"
             className="flex w-full items-center px-4 py-3 text-sm text-slate-400 hover:bg-slate-50"

@@ -14,10 +14,13 @@ export interface Tradesperson {
   whatsapp_url: string | null;
   instagram_url: string | null;
   is_featured: boolean;
+  membership_tier: "free" | "premium" | "featured";
+  billing_cycle: "monthly" | "annual";
+  trade_bodies: string[] | null;
   slug: string;
   // joined from related tables
-  areas?: { name: string }[];
-  categories?: { name: string }[];
+  tradesperson_areas?: { areas: { name: string } | null }[];
+  tradesperson_categories?: { categories: { name: string } | null }[];
   reviews?: { rating: number }[];
 }
 

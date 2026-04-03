@@ -1,0 +1,32 @@
+import { NextRequest, NextResponse } from "next/server";
+
+export async function POST(req: NextRequest) {
+  try {
+    const { name, email, subject, message } = await req.json();
+
+    if (!name || !email || !message) {
+      return NextResponse.json({ error: "Name, email and message are required." }, { status: 400 });
+    }
+
+    // Log to console for now — replace with Resend/email service when ready
+    console.log("=== CONTACT FORM SUBMISSION ===");
+    console.log(`From: ${name} <${email}>`);
+    console.log(`Subject: ${subject}`);
+    console.log(`Message: ${message}`);
+    console.log("================================");
+
+    // TODO: When you have an email service set up, send to hello@cvtrades.co.uk
+    // Example with Resend:
+    // await resend.emails.send({
+    //   from: "CV Trades <noreply@cvtrades.co.uk>",
+    //   to: "hello@cvtrades.co.uk",
+    //   subject: `Contact Form: ${subject}`,
+    //   html: `<p><strong>From:</strong> ${name} (${email})</p><p><strong>Message:</strong> ${message}</p>`,
+    // });
+
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    console.error("Contact form error:", err);
+    return NextResponse.json({ error: "Something went wrong." }, { status: 500 });
+  }
+}
