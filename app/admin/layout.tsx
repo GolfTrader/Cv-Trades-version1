@@ -249,6 +249,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const router = useRouter();
   const [searchOpen, setSearchOpen] = useState(false);
   const [pendingCount, setPendingCount] = useState(0);
+  const [pendingReviewCount, setPendingReviewCount] = useState(0);
   const [toasts, setToasts] = useState<Toast[]>([]);
   const toastId = useRef(0);
 
@@ -268,11 +269,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   // Fetch notification counts
   useEffect(() => {
     async function fetchCounts() {
-      const { count: pListings } = await supabase
-        .from("tradespeople")
-        .select("*", { count: "exact", head: true })
-        .eq("approved", false);
+      const [{ count: pListings }, { count: pReviews }] = await Promise.all([
+        supabase.from("tradespeople").select("*", { count: "exact", head: true }).eq("approved", false),
+        supabase.from("reviews").select("*", { count: "exact", head: true }).eq("approved", false),
+      ]);
       setPendingCount(pListings ?? 0);
+      setPendingReviewCount(pReviews ?? 0);
     }
     fetchCounts();
     const interval = setInterval(fetchCounts, 30000); // refresh every 30s
@@ -291,7 +293,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     return () => window.removeEventListener("keydown", handler);
   }, []);
 
-  const totalNotifications = pendingCount ?? 0;
+  const totalNotifications = (pendingCount ?? 0) + (pendingReviewCount ?? 0);
 
   return (
     <ToastContext.Provider value={{ addToast }}>

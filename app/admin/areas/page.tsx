@@ -7,6 +7,8 @@ export default function AreasPage() {
   const [newName, setNewName] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editingName, setEditingName] = useState("");
 
   useEffect(() => { fetchItems(); }, []);
 
@@ -32,10 +34,11 @@ export default function AreasPage() {
     fetchItems();
   }
 
-  async function renameItem(id: number, oldName: string) {
-    const newVal = prompt("Rename to:", oldName);
-    if (!newVal || newVal === oldName) return;
-    await supabase.from("areas").update({ name: newVal }).eq("id", id);
+  async function saveRename(id: number) {
+    if (!editingName.trim()) return;
+    await supabase.from("areas").update({ name: editingName.trim() }).eq("id", id);
+    setEditingId(null);
+    setEditingName("");
     fetchItems();
   }
 
@@ -43,39 +46,85 @@ export default function AreasPage() {
     const csv = ["id,name", ...items.map((i) => `${i.id},${JSON.stringify(i.name)}`)].join("\n");
     const blob = new Blob([csv], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "areas.csv";
-    a.click();
+    const a = document.createElement("a"); a.href = url; a.download = "areas.csv"; a.click();
   }
+
+  const btnStyle = (variant: "danger" | "default" | "primary"): React.CSSProperties => {
+    const map: Record<string, React.CSSProperties> = {
+      danger: { background: "#fee2e2", border: "1px solid #fecaca", color: "#991b1b" },
+      default: { background: "white", border: "1px solid #e2e8f0", color: "#374151" },
+      primary: { background: "#2563eb", border: "1px solid #2563eb", color: "white" },
+    };
+    return { ...map[variant], fontSize: "11px", fontWeight: "600", padding: "5px 10px", borderRadius: "6px", cursor: "pointer", whiteSpace: "nowrap" };
+  };
+
+  if (loading) return (
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "300px" }}>
+      <div style={{ textAlign: "center" }}>
+        <div style={{ width: "32px", height: "32px", border: "3px solid #e2e8f0", borderTopColor: "#2563eb", borderRadius: "50%", animation: "spin 0.8s linear infinite", margin: "0 auto 12px" }} />
+        <div style={{ fontSize: "14px", color: "#94a3b8" }}>Loading...</div>
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      </div>
+    </div>
+  );
 
   return (
     <div>
-      <div style={{ marginBottom: "24px" }}>
-        <h1 style={{ fontSize: "22px", fontWeight: "700", color: "#0f172a", marginBottom: "4px" }}>Areas</h1>
-        <p style={{ fontSize: "14px", color: "#94a3b8" }}>Manage areas covered by the directory</p>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
+        <p style={{ fontSize: "14px", color: "#64748b", margin: 0 }}>{items.length} areas</p>
+        <button onClick={exportCSV} style={{ ...btnStyle("default"), fontSize: "13px", padding: "8px 16px" }}>Export CSV</button>
       </div>
-      <div style={{ background: "white", border: "1px solid #e2e8f0", borderRadius: "10px", padding: "20px", maxWidth: "600px" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-          <p style={{ fontSize: "12px", color: "#94a3b8" }}>{items.length} areas</p>
-          <button onClick={exportCSV} style={{ fontSize: "12px", padding: "6px 12px", border: "1px solid #e2e8f0", borderRadius: "6px", background: "white", cursor: "pointer", color: "#374151" }}>Export CSV</button>
+
+      <div style={{ background: "white", border: "1px solid #e2e8f0", borderRadius: "12px", overflow: "hidden", maxWidth: "640px" }}>
+        <div style={{ padding: "14px 18px", borderBottom: "1px solid #f1f5f9", display: "flex", gap: "8px" }}>
+          <input
+            value={newName}
+            onChange={(e) => setNewName(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && addItem()}
+            placeholder="Add new area..."
+            style={{ flex: 1, padding: "8px 12px", fontSize: "13px", border: "1px solid #e2e8f0", borderRadius: "8px", outline: "none", background: "#f8fafc" }}
+          />
+          <button onClick={addItem} disabled={saving || !newName.trim()} style={{ ...btnStyle("primary"), fontSize: "13px", padding: "8px 16px", opacity: !newName.trim() ? 0.5 : 1 }}>
+            + Add
+          </button>
         </div>
-        <div style={{ display: "flex", gap: "8px", marginBottom: "16px" }}>
-          <input value={newName} onChange={(e) => setNewName(e.target.value)} onKeyDown={(e) => e.key === "Enter" && addItem()} placeholder="Add new area..." style={{ flex: 1, padding: "8px 10px", fontSize: "13px", border: "1px solid #e2e8f0", borderRadius: "6px", outline: "none" }} />
-          <button onClick={addItem} disabled={saving || !newName.trim()} style={{ padding: "8px 16px", fontSize: "13px", fontWeight: "600", border: "none", borderRadius: "6px", background: "#2563eb", color: "white", cursor: "pointer" }}>Add</button>
-        </div>
-        {loading ? <p style={{ fontSize: "13px", color: "#94a3b8" }}>Loading...</p> : (
-          <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
-            {items.map((item) => (
-              <div key={item.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 10px", borderRadius: "6px", background: "#f8fafc" }}>
-                <span style={{ fontSize: "13px", color: "#0f172a" }}>{item.name}</span>
-                <div style={{ display: "flex", gap: "6px" }}>
-                  <button onClick={() => renameItem(item.id, item.name)} style={{ fontSize: "11px", padding: "3px 8px", border: "1px solid #e2e8f0", borderRadius: "4px", background: "white", cursor: "pointer", color: "#374151" }}>Rename</button>
-                  <button onClick={() => deleteItem(item.id, item.name)} style={{ fontSize: "11px", padding: "3px 8px", border: "1px solid #fecaca", borderRadius: "4px", background: "#fee2e2", cursor: "pointer", color: "#991b1b" }}>Delete</button>
-                </div>
+
+        {items.map((item, i) => (
+          <div key={item.id} style={{
+            display: "flex", alignItems: "center", justifyContent: "space-between",
+            padding: "10px 18px",
+            borderBottom: i < items.length - 1 ? "1px solid #f1f5f9" : "none",
+            transition: "background 0.1s",
+          }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = "#fafbfc")}
+            onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+          >
+            {editingId === item.id ? (
+              <div style={{ display: "flex", gap: "8px", flex: 1 }}>
+                <input
+                  value={editingName}
+                  onChange={(e) => setEditingName(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === "Enter") saveRename(item.id); if (e.key === "Escape") setEditingId(null); }}
+                  autoFocus
+                  style={{ flex: 1, padding: "5px 10px", fontSize: "13px", border: "1px solid #2563eb", borderRadius: "6px", outline: "none" }}
+                />
+                <button onClick={() => saveRename(item.id)} style={btnStyle("primary")}>Save</button>
+                <button onClick={() => setEditingId(null)} style={btnStyle("default")}>Cancel</button>
               </div>
-            ))}
+            ) : (
+              <>
+                <span style={{ fontSize: "13px", color: "#0f172a", fontWeight: "500" }}>{item.name}</span>
+                <div style={{ display: "flex", gap: "5px" }}>
+                  <button onClick={() => { setEditingId(item.id); setEditingName(item.name); }} style={btnStyle("default")}>Rename</button>
+                  <button onClick={() => deleteItem(item.id, item.name)} style={btnStyle("danger")}>Delete</button>
+                </div>
+              </>
+            )}
           </div>
+        ))}
+
+        {items.length === 0 && (
+          <div style={{ padding: "40px", textAlign: "center", color: "#94a3b8", fontSize: "13px" }}>No areas yet. Add one above.</div>
         )}
       </div>
     </div>

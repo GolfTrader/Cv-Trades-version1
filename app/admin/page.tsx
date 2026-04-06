@@ -92,7 +92,7 @@ export default function AdminDashboardPage() {
   const [loading, setLoading] = useState(true);
 
   // Data states
-  const [stats, setStats] = useState({ total: 0, pending: 0, subscribers: 0, totalReviews: 0, featured: 0, premium: 0, free: 0 });
+  const [stats, setStats] = useState({ total: 0, pending: 0, subscribers: 0, pendingReviews: 0, totalReviews: 0, featured: 0, premium: 0, free: 0 });
   const [listings, setListings] = useState<Tradesperson[]>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [recentSubs, setRecentSubs] = useState<any[]>([]);
@@ -119,7 +119,7 @@ export default function AdminDashboardPage() {
 
     const reviewsRes = await supabase
       .from("reviews")
-      .select("id, reviewer_name, comment, rating, created_at, tradesperson_id, tradespeople(business_name)")
+      .select("id, reviewer_name, comment, rating, approved, created_at, tradesperson_id, tradespeople(business_name)")
       .order("created_at", { ascending: false })
       .limit(20);
 
@@ -155,6 +155,7 @@ export default function AdminDashboardPage() {
       total: list.filter(isApproved).length,
       pending: list.filter(isNotApproved).length,
       subscribers: subscriberCount ?? 0,
+      pendingReviews: (allReviews ?? []).filter((r) => !r.approved).length,
       totalReviews: (allReviews ?? []).length,
       featured: list.filter((t) => t.membership_tier === "featured" && isApproved(t)).length,
       premium: list.filter((t) => t.membership_tier === "premium" && isApproved(t)).length,
@@ -211,6 +212,13 @@ export default function AdminDashboardPage() {
     });
     setActionLoading((s) => ({ ...s, [`tier-${id}`]: false }));
     if (res.ok) await fetchAll();
+  }
+
+  async function approveReview(id: number) {
+    setActionLoading((s) => ({ ...s, [`review-approve-${id}`]: true }));
+    await supabase.from("reviews").update({ approved: true }).eq("id", id);
+    setActionLoading((s) => ({ ...s, [`review-approve-${id}`]: false }));
+    await fetchAll();
   }
 
   async function deleteReview(id: number) {
@@ -572,17 +580,17 @@ export default function AdminDashboardPage() {
             </div>
           </div>
 
-          {/* Recent Reviews */}
+          {/* Pending Reviews */}
           <div style={{ background: "white", border: "1px solid #e2e8f0", borderRadius: "12px", padding: "18px" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px" }}>
               <h3 style={{ fontSize: "14px", fontWeight: "600", color: "#0f172a", margin: 0 }}>
-                Recent reviews <span style={{ fontSize: "12px", fontWeight: "400", color: "#94a3b8" }}>({stats.totalReviews})</span>
+                Pending reviews <span style={{ fontSize: "12px", fontWeight: "400", color: "#94a3b8" }}>({stats.pendingReviews})</span>
               </h3>
               <button onClick={() => router.push("/admin/reviews")} style={{ fontSize: "12px", color: "#2563eb", background: "none", border: "none", cursor: "pointer", fontWeight: "500" }}>View all</button>
             </div>
-            {reviews.length === 0 ? (
-              <p style={{ fontSize: "13px", color: "#94a3b8", margin: 0 }}>No reviews yet.</p>
-            ) : reviews.slice(0, 4).map((r) => (
+            {reviews.filter((r) => !r.approved).length === 0 ? (
+              <p style={{ fontSize: "13px", color: "#94a3b8", margin: 0 }}>No pending reviews.</p>
+            ) : reviews.filter((r) => !r.approved).slice(0, 4).map((r) => (
               <div key={r.id} style={{ padding: "10px 0", borderBottom: "1px solid #f8fafc" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "2px" }}>
                   <span style={{ fontSize: "13px", fontWeight: "500", color: "#0f172a" }}>{r.reviewer_name}</span>
@@ -595,11 +603,12 @@ export default function AdminDashboardPage() {
                   {r.comment?.substring(0, 100)}{(r.comment?.length ?? 0) > 100 ? "..." : ""}
                 </p>
                 <div style={{ display: "flex", gap: "6px" }}>
-                  <button
-                    onClick={() => deleteReview(r.id)}
-                    disabled={!!actionLoading[`review-delete-${r.id}`]}
-                    style={{ ...btnStyle("danger"), opacity: actionLoading[`review-delete-${r.id}`] ? 0.5 : 1 }}
-                  >
+                  <button onClick={() => approveReview(r.id)} disabled={!!actionLoading[`review-approve-${r.id}`]}
+                    style={{ ...btnStyle("success"), opacity: actionLoading[`review-approve-${r.id}`] ? 0.5 : 1 }}>
+                    {actionLoading[`review-approve-${r.id}`] ? "..." : "Approve"}
+                  </button>
+                  <button onClick={() => deleteReview(r.id)} disabled={!!actionLoading[`review-delete-${r.id}`]}
+                    style={{ ...btnStyle("danger"), opacity: actionLoading[`review-delete-${r.id}`] ? 0.5 : 1 }}>
                     {actionLoading[`review-delete-${r.id}`] ? "..." : "Delete"}
                   </button>
                 </div>
